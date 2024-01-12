@@ -1,4 +1,3 @@
-# models.py
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy_serializer import SerializerMixin
@@ -18,3 +17,8 @@ class Message(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {'id': self.id, 'body': self.body, 'username': self.username,
+                'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')}
